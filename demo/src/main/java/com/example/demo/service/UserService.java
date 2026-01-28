@@ -28,11 +28,9 @@ public class UserService {
         if (repository.findUserById(id).isPresent()){
             throw new UserAlreadyExistsException(id);
         }
-        else {
-            User user = new User(username,id,email,age);
-            repository.saveUser(user);
-            return new UserResponse(id,username,email,age,"User has successfully been created");
-        }
+        User user = new User(username,id,email,age);
+        repository.saveUser(user);
+        return new UserResponse(id,username,email,age,"User has successfully been created");
     }
 
     public List<User> getUsers(){

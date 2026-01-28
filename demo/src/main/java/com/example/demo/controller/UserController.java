@@ -23,8 +23,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserResponse getUser(@PathVariable int id) {
-        Optional<User>  userOpt = userService.getUserById(id);
-        User user = userOpt.get();
+        User user = userService.getUserById(id);
         return new UserResponse(user.getId(), user.getUsername(),user.getEmail(), user.getAge(),"Successfully retrived user");
     }
 
