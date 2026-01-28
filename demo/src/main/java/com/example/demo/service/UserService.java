@@ -2,10 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.domain.User;
 import com.example.demo.dto.UserResponse;
-import com.example.demo.exception.InvalidIdException;
-import com.example.demo.exception.UserAlreadyExistsException;
-import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.exception.*;
 import com.example.demo.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +38,17 @@ public class UserService {
     }
 
 
-    public void changeUserEmail(int id, String new_email){
-        repository.modifyUserEmail(id, new_email);
+    public UserResponse updateUserEmail(int id, String new_email){
+        Optional<User> userOpt = repository.findUserById(id);
+        if (userOpt.isEmpty()) {
+            throw new UserNotFoundException(id);
+        }
+        User user = userOpt.get();
+        if (user.getEmail().equals(new_email)){
+            throw new SameEmailException(id,new_email);
+        }
+        repository.updateUserEmail(id, new_email);
+        return new UserResponse(user.getId(),user.getUsername(),new_email,user.getAge(),"Successfully updated the user's email to : " + new_email);
     }
 
     public User getUserById(int id){

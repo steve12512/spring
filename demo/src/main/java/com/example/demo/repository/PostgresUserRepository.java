@@ -31,7 +31,7 @@ public class PostgresUserRepository implements  UserRepository{
     }
 
     @Override
-    public void modifyUserEmail(int id, String new_email){
+    public void updateUserEmail(int id, String new_email){
     }
 
 }

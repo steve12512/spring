@@ -2,14 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.User;
 import com.example.demo.dto.CreateUserRequest;
+import com.example.demo.dto.UpdateUserEmailRequest;
+import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserResponse;
-import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -43,6 +43,11 @@ public class UserController {
         return  response;
     }
 
+    @PutMapping()
+    public UserResponse updateUserEmail(@Valid @RequestBody UpdateUserEmailRequest request){
+        UserResponse userResponse = userService.updateUserEmail(request.getId(), request.getEmail());
+        return  userResponse;
+    }
 
 
 

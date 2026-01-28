@@ -10,5 +10,5 @@ public interface UserRepository {
     List<User> findAll();
     void deleteUser(int id);
     void saveUser(User user);
-    void modifyUserEmail(int id, String email);
+    void updateUserEmail(int id, String email);
 }
