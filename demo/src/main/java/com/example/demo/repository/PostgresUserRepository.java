@@ -4,6 +4,7 @@ import com.example.demo.domain.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PostgresUserRepository implements  UserRepository{
@@ -11,7 +12,7 @@ public class PostgresUserRepository implements  UserRepository{
     }
 
     @Override
-    public User findUserById(int id){
+    public Optional<User> findUserById(int id){
         return null;
     }
 

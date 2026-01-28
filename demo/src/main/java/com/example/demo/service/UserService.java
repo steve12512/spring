@@ -3,11 +3,13 @@ package com.example.demo.service;
 import com.example.demo.domain.User;
 import com.example.demo.dto.UserResponse;
 import com.example.demo.exception.InvalidIdException;
+import com.example.demo.exception.UserAlreadyExistsException;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,11 +25,11 @@ public class UserService {
         if (id <= 0) {
             throw new InvalidIdException(id);
         }
-        User user = repository.findUserById(id);
-        if (user == null){
-            throw new UserNotFoundException(id);
+        if (repository.findUserById(id).isPresent()){
+            throw new UserAlreadyExistsException(id);
         }
         else {
+            User user = new User(username,id,email,age);
             repository.saveUser(user);
             return new UserResponse(id,username,email,age,"User has successfully been created");
         }
@@ -44,11 +46,11 @@ public class UserService {
     }
 
     public User getUserById(int id){
-        User user = repository.findUserById(id);
-        if (user == null){
-            throw new UserNotFoundException(user.getId());
+        Optional<User>  userOpt = repository.findUserById(id);
+        if (userOpt.isEmpty()){
+            throw new UserNotFoundException(id);
         }
-        return  user;
+        return  userOpt.get();
     }
 
 

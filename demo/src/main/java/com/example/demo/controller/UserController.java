@@ -3,11 +3,13 @@ package com.example.demo.controller;
 import com.example.demo.domain.User;
 import com.example.demo.dto.CreateUserRequest;
 import com.example.demo.dto.UserResponse;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -20,10 +22,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable int id){
-        User user = userService.getUserById(id);
-        UserResponse userResponse = new UserResponse(user.getId(),user.getUsername(), user.getEmail(), user.getAge());
-        return  userResponse;
+    public UserResponse getUser(@PathVariable int id) {
+        Optional<User>  userOpt = userService.getUserById(id);
+        User user = userOpt.get();
+        return new UserResponse(user.getId(), user.getUsername(),user.getEmail(), user.getAge(),"Successfully retrived user");
     }
 
     @GetMapping
