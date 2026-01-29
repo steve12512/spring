@@ -20,7 +20,7 @@ public class UserService {
     }
 
 
-    public UserResponse createUser(int id, int age, String username, String email){
+    public User createUser(int id, int age, String username, String email){
         if (id <= 0) {
             throw new InvalidIdException(id);
         }
@@ -29,7 +29,7 @@ public class UserService {
         }
         User user = new User(username,id,email,age);
         repository.saveUser(user);
-        return new UserResponse(id,username,email,age,"User has successfully been created");
+        return user;
     }
 
     public List<User> getUsers(){

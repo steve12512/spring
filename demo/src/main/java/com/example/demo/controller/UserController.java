@@ -36,9 +36,8 @@ public class UserController {
 
     @PostMapping()
     public UserResponse createUser(@Valid @RequestBody CreateUserRequest request){
-        UserResponse response = userService.createUser(
-                request.getId(), request.getAge(), request.getUsername(), request.getEmail()
-        );
+        User user = userService.createUser(request.getId(), request.getAge(), request.getUsername(), request.getEmail());
+        UserResponse response  = new UserResponse(user.getId(),user.getUsername(),user.getEmail(),user.getAge(),"User has successfully been created");
         return  response;
     }
 
@@ -48,7 +47,11 @@ public class UserController {
         return  userResponse;
     }
 
+    @DeleteMapping("/{id}")
+    public UserResponse deleteUser(@PathVariable int id){
 
+
+    }
 
 
 
