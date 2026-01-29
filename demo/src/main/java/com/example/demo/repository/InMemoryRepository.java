@@ -1,10 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class InMemoryRepository implements UserRepository{
     Map<Integer, User> users = new ConcurrentHashMap<>();
 

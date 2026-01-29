@@ -6,6 +6,8 @@ import com.example.demo.dto.UpdateUserEmailRequest;
 import com.example.demo.dto.UserResponse;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class UserController {
 
 
     @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
     public UserResponse createUser(@Valid @RequestBody CreateUserRequest request){
         User user = userService.createUser(request.getId(), request.getAge(), request.getUsername(), request.getEmail());
         UserResponse response  = new UserResponse(user.getId(),user.getUsername(),user.getEmail(),user.getAge(),"User has successfully been created");
@@ -50,9 +53,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public UserResponse deleteUser(@PathVariable int id){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable int id){
         boolean hasBeenDeleted = userService.deleteUser(id);
-        return new UserResponse(id);
     }
 
 

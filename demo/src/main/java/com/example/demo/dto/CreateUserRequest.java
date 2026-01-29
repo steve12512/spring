@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class CreateUserRequest {
-    @Min(10)
+    @Min(1)
     int id;
     @NotBlank
     String username;
@@ -22,6 +22,7 @@ public class CreateUserRequest {
     public int getId() {
         return id;
     }
+    //$ curl -X POST http://localhost:8080/users -H "Content-Type: application/json" -d '{"id":1, "username": "Jannis", "email": "jannis_lag@sarantaporo.gr", "age" : 30}'
 
     public String getUsername() {
         return username;
