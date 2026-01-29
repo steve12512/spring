@@ -38,7 +38,7 @@ public class UserService {
     }
 
 
-    public UserResponse updateUserEmail(int id, String new_email){
+    public User updateUserEmail(int id, String new_email){
         Optional<User> userOpt = repository.findUserById(id);
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException(id);
@@ -48,7 +48,7 @@ public class UserService {
             throw new SameEmailException(id,new_email);
         }
         repository.updateUserEmail(id, new_email);
-        return new UserResponse(user.getId(),user.getUsername(),new_email,user.getAge(),"Successfully updated the user's email to : " + new_email);
+        return user;
     }
 
     public User getUserById(int id){

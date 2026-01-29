@@ -43,7 +43,8 @@ public class UserController {
 
     @PutMapping("/{id}/email")
     public UserResponse updateUserEmail(@PathVariable int id, @Valid @RequestBody UpdateUserEmailRequest request){
-        UserResponse userResponse = userService.updateUserEmail(id, request.getEmail());
+        User user = userService.updateUserEmail(id, request.getEmail());
+        UserResponse userResponse = new UserResponse(user.getId(),user.getUsername(),user.getEmail(),user.getAge(),"Successfully updated the user's email to : " + user.getEmail());
         return  userResponse;
     }
 
