@@ -44,14 +44,15 @@ public class UserController {
     @PutMapping("/{id}/email")
     public UserResponse updateUserEmail(@PathVariable int id, @Valid @RequestBody UpdateUserEmailRequest request){
         User user = userService.updateUserEmail(id, request.getEmail());
+        user.setEmail(request.getEmail());
         UserResponse userResponse = new UserResponse(user.getId(),user.getUsername(),user.getEmail(),user.getAge(),"Successfully updated the user's email to : " + user.getEmail());
         return  userResponse;
     }
 
     @DeleteMapping("/{id}")
     public UserResponse deleteUser(@PathVariable int id){
-
-
+        boolean hasBeenDeleted = userService.deleteUser(id);
+        return new UserResponse(id);
     }
 
 

@@ -24,6 +24,10 @@ public class UserResponse {
         this.message = message;
     }
 
+    public UserResponse(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

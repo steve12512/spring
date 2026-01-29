@@ -59,5 +59,12 @@ public class UserService {
         return  userOpt.get();
     }
 
+    public boolean deleteUser(int id){
+        Optional<User> userOpt = repository.findUserById(id);
+        if (userOpt.isEmpty()){
+            throw  new UserNotFoundException(id);
+        }
+        return repository.deleteUser(id);
+    }
 
 }
