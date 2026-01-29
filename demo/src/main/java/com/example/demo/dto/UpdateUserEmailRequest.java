@@ -4,8 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 
 public class UpdateUserEmailRequest {
-    @Min(10)
-    int id;
     @Email
     String email;
 
@@ -13,12 +11,7 @@ public class UpdateUserEmailRequest {
         return email;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public UpdateUserEmailRequest(int id, String email) {
-        this.id = id;
+    public UpdateUserEmailRequest(String email) {
         this.email = email;
     }
 }

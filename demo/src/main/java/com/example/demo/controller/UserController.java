@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.domain.User;
 import com.example.demo.dto.CreateUserRequest;
 import com.example.demo.dto.UpdateUserEmailRequest;
-import com.example.demo.dto.UserRequest;
 import com.example.demo.dto.UserResponse;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
@@ -43,9 +42,9 @@ public class UserController {
         return  response;
     }
 
-    @PutMapping()
-    public UserResponse updateUserEmail(@Valid @RequestBody UpdateUserEmailRequest request){
-        UserResponse userResponse = userService.updateUserEmail(request.getId(), request.getEmail());
+    @PutMapping("/{id}/email")
+    public UserResponse updateUserEmail(@PathVariable int id, @Valid @RequestBody UpdateUserEmailRequest request){
+        UserResponse userResponse = userService.updateUserEmail(id, request.getEmail());
         return  userResponse;
     }
 
