@@ -4,6 +4,7 @@ import com.example.demo.domain.User;
 import com.example.demo.dto.CreateUserRequest;
 import com.example.demo.dto.UpdateUserEmailRequest;
 import com.example.demo.dto.UserResponse;
+import com.example.demo.dto.UserSearchRequest;
 import com.example.demo.exception.InvalidIdException;
 import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable int id) {
+    public UserResponse getUser(@PathVariable Long id) {
         User user = userService.getUserById(id);
         return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(), "Successfully retrived user");
     }
@@ -56,19 +57,17 @@ public class UserController {
                 new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge()));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/filter/search")
     public Page<UserResponse> getUsersOlderThan(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10")  int size,
-            @RequestParam (defaultValue = "id") String sortBy,
-            @RequestParam @Min(18) int minAge,
-            @RequestParam(defaultValue = "") String name
+    @Valid @ModelAttribute UserSearchRequest request
     )
     {
-        Pageable pageable = PageRequest.of(page,size,Sort.by(sortBy));
-        Page<User> users = (name.isEmpty())?
-                userService.getUsersOlderThan(minAge, pageable)
-                :userService.getUsersOlderThanContains(minAge,name,pageable);
+        System.out.println("in the getUsersOlderThan function");
+        Pageable pageable = PageRequest.of(request.page(),request.size(),Sort.by(request.sortBy()));
+        Page<User> users = (request.username().isEmpty())
+                ?userService.getUsersOlderThan(request.minAge(), pageable)
+                :userService.getUsersAgeGreaterThanEqualAndUsernameContaining(request.minAge(),request.username(),pageable);
+        System.out.println(request.minAge());
         return users.map(user
                 -> new UserResponse
                 (user.getId(),user.getUsername(),user.getEmail(),user.getAge(),"Successfully retrived user"));
@@ -78,13 +77,13 @@ public class UserController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
-        User user = userService.createUser(request.getId(), request.getAge(), request.getUsername(), request.getEmail());
+        User user = userService.createUser(request.getAge(), request.getUsername(), request.getEmail());
         UserResponse response = new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(), "User has successfully been created");
         return response;
     }
 
     @PutMapping("/{id}/email")
-    public UserResponse updateUserEmail(@PathVariable int id, @Valid @RequestBody UpdateUserEmailRequest request) {
+    public UserResponse updateUserEmail(@PathVariable Long id, @Valid @RequestBody UpdateUserEmailRequest request) {
         User user = userService.updateUserEmail(id, request.getEmail());
         UserResponse userResponse = new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(), "Successfully updated the user's email to : " + user.getEmail());
         return userResponse;
@@ -92,7 +91,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable int id) {
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
     }
 

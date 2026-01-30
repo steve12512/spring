@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
-    Optional<User> findById(int id);
+    Optional<User> findById(Long id);
+    Optional<User> findByUsername(String username);
     List<User> findAll();
     Page<User> findAll(Pageable pageable);
     Page<User> findByAgeGreaterThanEqual(int minAge, Pageable pageable);
     Page <User> findByAgeGreaterThanEqualAndUsernameContaining(int minAge, String name, Pageable pageable);
-    void deleteById(int id);
+    void deleteById(Long id);
     User save(User user);
 
 }

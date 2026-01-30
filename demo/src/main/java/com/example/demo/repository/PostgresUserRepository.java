@@ -12,7 +12,7 @@ public abstract class PostgresUserRepository implements  UserRepository{
     }
 
     @Override
-    public Optional<User> findById(int id){
+    public Optional<User> findById(Long id){
         return null;
     }
 
@@ -28,7 +28,7 @@ public abstract class PostgresUserRepository implements  UserRepository{
     }
 
     @Override
-    public void deleteById(int id){
+    public void deleteById(Long id){
     }
 
 }

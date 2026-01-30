@@ -1,15 +1,14 @@
 package com.example.demo.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table (name = "users")
 public class User {
     String username;
     @Id
-    int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String email;
     int age;
 
@@ -21,13 +20,10 @@ public class User {
         this.username = username;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;
@@ -47,9 +43,8 @@ public class User {
 
     protected  User(){}
 
-    public User(String username, int id, String email, int age) {
+    public User(String username, String email, int age) {
         this.username = username;
-        this.id = id;
         this.email = email;
         this.age = age;
     }

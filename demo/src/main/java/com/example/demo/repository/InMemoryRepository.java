@@ -13,14 +13,14 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("memory")
 
 public abstract class InMemoryRepository implements UserRepository{
-    Map<Integer, User> users = new ConcurrentHashMap<>();
+    Map<Long, User> users = new ConcurrentHashMap<>();
 
-    public InMemoryRepository(Map<Integer, User> users) {
+    public InMemoryRepository(Map<Long, User> users) {
         this.users = users;
     }
 
     @Override
-    public Optional<User> findById(int id){
+    public Optional<User> findById(Long id){
         return Optional.ofNullable(users.get(id));
     }
 
@@ -36,7 +36,7 @@ public abstract class InMemoryRepository implements UserRepository{
     }
 
     @Override
-    public void deleteById(int id){
+    public void deleteById(Long id){
         users.remove(id) ;
     }
 

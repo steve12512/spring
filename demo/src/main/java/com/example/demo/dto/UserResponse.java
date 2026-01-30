@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class UserResponse {
-    int id;
+    Long id;
     String username;
     String email;
     int age;
@@ -16,7 +16,7 @@ public class UserResponse {
         return message;
     }
 
-    public UserResponse(int id, String username, String email, int age, String message) {
+    public UserResponse(Long id, String username, String email, int age, String message) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -24,11 +24,11 @@ public class UserResponse {
         this.message = message;
     }
 
-    public UserResponse(int id) {
+    public UserResponse(Long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -44,7 +44,7 @@ public class UserResponse {
         return age;
     }
 
-    public UserResponse(int id, String username, String email, int age) {
+    public UserResponse(Long id, String username, String email, int age) {
         this.id = id;
         this.username = username;
         this.email = email;

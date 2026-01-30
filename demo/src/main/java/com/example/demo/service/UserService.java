@@ -20,14 +20,12 @@ public class UserService {
     }
 
 
-    public User createUser(int id, int age, String username, String email){
-        if (id <= 0) {
-            throw new InvalidIdException(id);
+    public User createUser( int age, String username, String email){
+
+        if (repository.findByUsername(username).isPresent()){
+            throw new UserAlreadyExistsException(username);
         }
-        if (repository.findById(id).isPresent()){
-            throw new UserAlreadyExistsException(id);
-        }
-        User user = new User(username,id,email,age);
+        User user = new User(username,email,age);
         repository.save(user);
         return user;
     }
@@ -43,7 +41,7 @@ public class UserService {
 
 
 
-    public User updateUserEmail(int id, String new_email){
+    public User updateUserEmail(Long id, String new_email){
         Optional<User> userOpt = repository.findById(id);
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException(id);
@@ -57,7 +55,7 @@ public class UserService {
         return user;
     }
 
-    public User getUserById(int id){
+    public User getUserById(Long id){
         Optional<User>  userOpt = repository.findById(id);
         if (userOpt.isEmpty()){
             throw new UserNotFoundException(id);
@@ -65,7 +63,7 @@ public class UserService {
         return  userOpt.get();
     }
 
-    public  void deleteById(int id){
+    public  void deleteById(Long id){
         Optional<User> userOpt = repository.findById(id);
         if (userOpt.isEmpty()){
             throw  new UserNotFoundException(id);
@@ -78,7 +76,8 @@ public class UserService {
     }
 
 
-    public Page<User> getUsersOlderThanContains(int minAge,String name,Pageable pageable){
+    public Page<User> getUsersAgeGreaterThanEqualAndUsernameContaining(int minAge, String name, Pageable pageable){
+        System.out.println(name);
        return repository.findByAgeGreaterThanEqualAndUsernameContaining( minAge,name,pageable);
     }
 
