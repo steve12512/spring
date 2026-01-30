@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 //@Repository
-public class PostgresUserRepository implements  UserRepository{
+public abstract class PostgresUserRepository implements  UserRepository{
     public PostgresUserRepository() {
     }
 
     @Override
-    public Optional<User> findUserById(int id){
+    public Optional<User> findById(int id){
         return null;
     }
 
@@ -23,17 +23,12 @@ public class PostgresUserRepository implements  UserRepository{
 
 
     @Override
-    public boolean saveUser(User user){
-        return  true;
+    public User save(User user){
+        return user;
     }
 
     @Override
-    public boolean deleteUser(int id){
-        return true;
-    }
-
-    @Override
-    public void updateUserEmail(int id, String new_email){
+    public void deleteById(int id){
     }
 
 }

@@ -1,7 +1,14 @@
 package com.example.demo.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table (name = "users")
 public class User {
     String username;
+    @Id
     int id;
     String email;
     int age;
@@ -37,6 +44,8 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
+
+    protected  User(){}
 
     public User(String username, int id, String email, int age) {
         this.username = username;

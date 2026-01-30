@@ -1,10 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.User;
-import com.example.demo.dto.UserResponse;
 import com.example.demo.exception.*;
 import com.example.demo.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +22,11 @@ public class UserService {
         if (id <= 0) {
             throw new InvalidIdException(id);
         }
-        if (repository.findUserById(id).isPresent()){
+        if (repository.findById(id).isPresent()){
             throw new UserAlreadyExistsException(id);
         }
         User user = new User(username,id,email,age);
-        repository.saveUser(user);
+        repository.save(user);
         return user;
     }
 
@@ -39,7 +37,7 @@ public class UserService {
 
 
     public User updateUserEmail(int id, String new_email){
-        Optional<User> userOpt = repository.findUserById(id);
+        Optional<User> userOpt = repository.findById(id);
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException(id);
         }
@@ -47,24 +45,26 @@ public class UserService {
         if (user.getEmail().equals(new_email)){
             throw new SameEmailException(id,new_email);
         }
-        repository.updateUserEmail(id, new_email);
+        user.setEmail(new_email);
+        repository.save(user);
         return user;
     }
 
     public User getUserById(int id){
-        Optional<User>  userOpt = repository.findUserById(id);
+        Optional<User>  userOpt = repository.findById(id);
         if (userOpt.isEmpty()){
             throw new UserNotFoundException(id);
         }
         return  userOpt.get();
     }
 
-    public boolean deleteUser(int id){
-        Optional<User> userOpt = repository.findUserById(id);
+    public boolean deleteById(int id){
+        Optional<User> userOpt = repository.findById(id);
         if (userOpt.isEmpty()){
             throw  new UserNotFoundException(id);
         }
-        return repository.deleteUser(id);
+        repository.deleteById(id);
+        return  true;
     }
 
 }

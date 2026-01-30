@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
-    Optional<User> findUserById(int id);
+    Optional<User> findById(int id);
     List<User> findAll();
-    boolean deleteUser(int id);
-    boolean saveUser(User user);
-    void updateUserEmail(int id, String email);
+    void deleteById(int id);
+    User save(User user);
 }
