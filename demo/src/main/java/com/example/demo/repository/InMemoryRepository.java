@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import com.example.demo.domain.User;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -9,7 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("memory")
-public class InMemoryRepository implements UserRepository{
+
+public abstract class InMemoryRepository implements UserRepository{
     Map<Integer, User> users = new ConcurrentHashMap<>();
 
     public InMemoryRepository(Map<Integer, User> users) {
@@ -32,10 +35,16 @@ public class InMemoryRepository implements UserRepository{
         return user;
     }
 
-
     @Override
     public void deleteById(int id){
         users.remove(id) ;
     }
+
+
+//    @Override
+//    public Page<User> findAll(Pageable pageable){
+//        return pageable.
+//    }
+
 
 }

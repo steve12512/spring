@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.domain.User;
 import com.example.demo.exception.*;
 import com.example.demo.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,11 @@ public class UserService {
         return users;
     }
 
+    public Page<User> getUsers(Pageable pageable){
+        return repository.findAll(pageable);
+    }
+
+
 
     public User updateUserEmail(int id, String new_email){
         Optional<User> userOpt = repository.findById(id);
@@ -58,13 +65,20 @@ public class UserService {
         return  userOpt.get();
     }
 
-    public boolean deleteById(int id){
+    public  void deleteById(int id){
         Optional<User> userOpt = repository.findById(id);
         if (userOpt.isEmpty()){
             throw  new UserNotFoundException(id);
         }
         repository.deleteById(id);
-        return  true;
     }
+
+    public Page<User> getUsersOlderThan(int minAge, Pageable pageable){
+        return repository.findByAgeGreaterThanEqual(minAge,pageable);
+    }
+
+
+
+
 
 }
