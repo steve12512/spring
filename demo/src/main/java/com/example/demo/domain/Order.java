@@ -1,8 +1,9 @@
 package com.example.demo.domain;
 
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,8 +33,8 @@ public class Order{
 
     String status;
 
-    @Timestamp
-    @Column(updatable = false)
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
     private Timestamp created_at;
 
 

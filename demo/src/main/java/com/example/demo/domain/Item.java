@@ -10,7 +10,6 @@ import lombok.Setter;
 @Table(name = "items")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 
 public class Item {
@@ -21,4 +20,9 @@ public class Item {
     Double price;
     String info;
 
+    public Item(String name, Double price, String info) {
+        this.name = name;
+        this.price = price;
+        this.info = info;
+    }
 }

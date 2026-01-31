@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.responses.user_responses;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;

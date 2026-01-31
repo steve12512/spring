@@ -1,4 +1,4 @@
-package com.example.demo.repository;
+package com.example.demo.repository.user;
 
 import com.example.demo.domain.User;
 import org.springframework.context.annotation.Profile;
