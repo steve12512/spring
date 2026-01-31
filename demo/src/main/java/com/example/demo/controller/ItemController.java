@@ -16,6 +16,18 @@ public class ItemController{
 
     ItemService itemService;
 
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+
+    @GetMapping()
+    public ItemResponse getItem(@RequestParam String name){
+        Item item = itemService.getItem(name);
+        return  new ItemResponse(item.getId(),item.getName(),item.getPrice(),item.getInfo(),"Successfully retrieved item");
+    }
+
+
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,8 +38,6 @@ public class ItemController{
 
 
     }
-
-
 
 
 }

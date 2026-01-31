@@ -38,12 +38,7 @@ public class UserController {
         User user = userService.getUserById(id);
         return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(),user.getIsActive(), "Successfully retrived user");
     }
-// i ve replaced this with its Pageable version below
-//    @GetMapping
-//    public List<UserResponse> getAllUsers() {
-//        List<User> users = userService.getUsers();
-//        return users.stream().map(user -> new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge())).toList();
-//    }
+
 
     @GetMapping
     public Page<UserResponse> getAllUsers(

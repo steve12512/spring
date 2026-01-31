@@ -3,20 +3,17 @@ package com.example.demo.service;
 import com.example.demo.domain.Item;
 import com.example.demo.dto.requests.item_requests.CreateItemRequest;
 import com.example.demo.exception.item.ItemAlreadyExistsException;
+import com.example.demo.exception.item.ItemNotFoundException;
 import com.example.demo.repository.item.ItemRepository;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Service;
 
 @Service
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class ItemService{
-    ItemRepository repository;
+    private final ItemRepository repository;
 
     public Item createItem(CreateItemRequest request){
         String name = request.name();
@@ -31,6 +28,11 @@ public class ItemService{
         return item;
     }
 
+    public Item getItem(String name){
+        Item item = repository.findByName(name);
+        if (item == null) throw  new ItemNotFoundException();
+        return item;
+    }
 
 }
 
