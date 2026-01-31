@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.User;
+import com.example.demo.dto.UserSearchRequest;
 import com.example.demo.exception.*;
 import com.example.demo.repository.UserRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -70,6 +73,15 @@ public class UserService {
         }
         repository.deleteById(id);
     }
+
+    public Page<User> getUsersAgeGreaterThanEqual(UserSearchRequest request, Pageable pageable){
+        return  (request.username().isEmpty())
+                ?this.getUsersOlderThan(request.minAge(), pageable)
+                :this.getUsersAgeGreaterThanEqualAndUsernameContaining(request.minAge(),request.username(),pageable);
+    }
+
+
+
 
     public Page<User> getUsersOlderThan(int minAge, Pageable pageable){
         return repository.findByAgeGreaterThanEqual(minAge,pageable);

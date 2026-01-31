@@ -62,11 +62,8 @@ public class UserController {
     @Valid @ModelAttribute UserSearchRequest request
     )
     {
-        System.out.println("in the getUsersOlderThan function");
-        Pageable pageable = PageRequest.of(request.page(),request.size(),Sort.by(request.sortBy()));
-        Page<User> users = (request.username().isEmpty())
-                ?userService.getUsersOlderThan(request.minAge(), pageable)
-                :userService.getUsersAgeGreaterThanEqualAndUsernameContaining(request.minAge(),request.username(),pageable);
+        Pageable pageable = PageRequest.of(request.page(), request.size(), Sort.by(request.sortBy()));
+        Page<User> users = userService.getUsersAgeGreaterThanEqual(request, pageable);
         return users.map(user
                 -> new UserResponse
                 (user.getId(),user.getUsername(),user.getEmail(),user.getAge(),"Successfully retrived user"));
