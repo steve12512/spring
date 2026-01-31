@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/{id}")
     public UserResponse getUser(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(), "Successfully retrived user");
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(),user.getIsActive(), "Successfully retrived user");
     }
 // i ve replaced this with its Pageable version below
 //    @GetMapping
@@ -54,7 +54,7 @@ public class UserController {
         Pageable pageable = PageRequest.of(page,size, Sort.by(sortBy));
         return userService.getUsers(pageable).
                 map(user ->
-                new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge()));
+                new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(), user.getIsActive(),"Successfully retrieved user"));
     }
 
     @GetMapping("/filter/search")
@@ -84,6 +84,21 @@ public class UserController {
         UserResponse userResponse = new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(), "Successfully updated the user's email to : " + user.getEmail());
         return userResponse;
     }
+
+
+    @PutMapping("/{id}/isActive")
+    public UserResponse setUsertoInactive(@PathVariable Long id){
+        User user = userService.setUserStatusToInactive(id);
+        return new UserResponse(id,user.getUsername(),user.getEmail(),user.getAge(),user.getIsActive(),"successfully set the user s status to inactive");
+    }
+
+
+
+
+
+
+
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -24,4 +24,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("User not found",ex.getMessage(),HttpStatus.NOT_FOUND.value()));
     }
 
+    @ExceptionHandler
+    public ResponseEntity<?> handleUserIsAlreadyInactiveException(UserisAlreadyInactiveException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("User is already inactive", ex.getMessage(), HttpStatus.CONFLICT.value()));
+    }
+
 }

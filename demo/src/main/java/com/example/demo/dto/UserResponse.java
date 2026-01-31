@@ -11,6 +11,10 @@ public class UserResponse {
     String email;
     int age;
     String message;
+    boolean isActive;
+
+    public UserResponse(Long id, String username, String email, String s) {
+    }
 
     public String getMessage() {
         return message;
@@ -40,14 +44,20 @@ public class UserResponse {
         return email;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     public int getAge() {
         return age;
     }
 
-    public UserResponse(Long id, String username, String email, int age) {
+    public UserResponse(Long id, String username, String email, int age, boolean isActive, String message) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.age = age;
+        this.isActive = isActive;
+        this.message = message;
     }
 }

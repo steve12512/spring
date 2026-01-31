@@ -11,6 +11,8 @@ public class User {
     Long id;
     String email;
     int age;
+    @Column(nullable = false)
+    boolean isActive = true;
 
     public String getUsername() {
         return username;
@@ -24,6 +26,17 @@ public class User {
         return id;
     }
 
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -43,9 +56,10 @@ public class User {
 
     protected  User(){}
 
-    public User(String username, String email, int age) {
+    public User(String username, String email, int age, boolean isActive) {
         this.username = username;
         this.email = email;
         this.age = age;
+        this.isActive = isActive;
     }
 }

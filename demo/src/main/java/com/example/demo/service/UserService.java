@@ -28,7 +28,7 @@ public class UserService {
         if (repository.findByUsername(username).isPresent()){
             throw new UserAlreadyExistsException(username);
         }
-        User user = new User(username,email,age);
+        User user = new User(username,email,age,true);
         repository.save(user);
         return user;
     }
@@ -94,7 +94,15 @@ public class UserService {
     }
 
 
-
+    public User setUserStatusToInactive(Long id){
+        Optional userOpt = repository.findById(id);
+        if (userOpt.isEmpty()) throw new UserNotFoundException(id);
+        User user = (User) userOpt.get();
+        if (user.getIsActive() == false) throw new UserisAlreadyInactiveException(id);
+        user.setActive(false);
+        repository.save(user);
+        return  user;
+    }
 
 
 }
