@@ -4,6 +4,7 @@ import com.example.demo.domain.User;
 import com.example.demo.dto.UserSearchRequest;
 import com.example.demo.exception.*;
 import com.example.demo.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,7 @@ public class UserService {
     }
 
 
-
+    @Transactional
     public User updateUserEmail(Long id, String new_email){
         Optional<User> userOpt = repository.findById(id);
         if (userOpt.isEmpty()) {
@@ -66,6 +67,7 @@ public class UserService {
         return  userOpt.get();
     }
 
+    @Transactional
     public  void deleteById(Long id){
         Optional<User> userOpt = repository.findById(id);
         if (userOpt.isEmpty()){
@@ -93,7 +95,7 @@ public class UserService {
        return repository.findByAgeGreaterThanEqualAndUsernameContaining( minAge,name,pageable);
     }
 
-
+    @Transactional
     public User setUserStatusToInactive(Long id){
         Optional userOpt = repository.findById(id);
         if (userOpt.isEmpty()) throw new UserNotFoundException(id);

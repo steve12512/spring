@@ -60,4 +60,10 @@ public class UserResponse {
         this.isActive = isActive;
         this.message = message;
     }
+
+    public UserResponse(String message) {
+        this.message = message;
+    }
+
+
 }
