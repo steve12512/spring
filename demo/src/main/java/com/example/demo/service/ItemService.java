@@ -23,12 +23,13 @@ public class ItemService{
         return item;
     }
 
-    public Item getItem(int id){
+    public Item getItemById(Long id){
         Item item = repository.findById(id);
+        if (item == null) throw  new ItemNotFoundException();
         return item;
     }
 
-    public Item getItem(String name){
+    public Item getItemByName(String name){
         Item item = repository.findByName(name);
         if (item == null) throw  new ItemNotFoundException();
         return item;

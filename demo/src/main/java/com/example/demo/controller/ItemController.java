@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class ItemController{
 
-    ItemService itemService;
+    private final ItemService itemService;
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
@@ -23,7 +23,7 @@ public class ItemController{
 
     @GetMapping()
     public ItemResponse getItem(@RequestParam String name){
-        Item item = itemService.getItem(name);
+        Item item = itemService.getItemByName(name);
         return  new ItemResponse(item.getId(),item.getName(),item.getPrice(),item.getInfo(),"Successfully retrieved item");
     }
 

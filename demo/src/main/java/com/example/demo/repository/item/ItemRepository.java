@@ -7,5 +7,5 @@ public interface ItemRepository{
     Item findByName(String name);
     Item save(Item item);
 
-    Item findById(int id);
+    Item findById(Long id);
 }

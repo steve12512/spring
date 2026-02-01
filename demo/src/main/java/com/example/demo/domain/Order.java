@@ -31,7 +31,7 @@ public class Order{
     @JoinColumn(name = "user_id")
     User user;
 
-    String status;
+    String status= "Active";
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
