@@ -1,6 +1,8 @@
 package com.example.demo.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +11,9 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+
 @Table (name = "users")
 public class User implements UserDetails {
     String username;
@@ -20,7 +25,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     boolean isActive = true;
     String password;
-    String role;
+    String role = "User";
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
@@ -49,49 +54,11 @@ public class User implements UserDetails {
         return  true;
     }
 
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Long getId() {
-        return id;
-    }
+    public User(){}
 
     public boolean getIsActive() {
         return isActive;
     }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    protected  User(){}
 
     public User(String username, String email, int age, boolean isActive) {
         this.username = username;
@@ -100,7 +67,4 @@ public class User implements UserDetails {
         this.isActive = isActive;
     }
 
-    public String getRole() {
-        return  role;
-    }
 }
