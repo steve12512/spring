@@ -29,8 +29,11 @@ public class UserService implements UserDetailsService {
     this.repository = repository;
   }
 
-  public User createUser(int age, String username, String email) {
+  public User findById(Long id) {
+    return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+  }
 
+  public User createUser(int age, String username, String email) {
     if (repository.findByUsername(username).isPresent()) {
       throw new UserAlreadyExistsException(username);
     }

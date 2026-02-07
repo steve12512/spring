@@ -20,6 +20,7 @@ public class Item {
   String name;
   Double price;
   String info;
+  Integer availableQuantity;
 
   public Item(String name, Double price, String info) {
     this.name = name;

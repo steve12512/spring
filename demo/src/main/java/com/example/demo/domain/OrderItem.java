@@ -27,4 +27,5 @@ public class OrderItem {
 
   String information;
   String status;
+  Double itemQuantity;
 }

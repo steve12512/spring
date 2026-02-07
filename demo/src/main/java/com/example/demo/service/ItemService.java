@@ -35,4 +35,9 @@ public class ItemService {
     if (item == null) throw new ItemNotFoundException();
     return item;
   }
+
+  public Item saveItem(Item item) {
+    repository.save(item);
+    return item;
+  }
 }

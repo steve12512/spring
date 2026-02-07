@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+import com.example.demo.exception.item.InsufficientItemQuantityException;
 import com.example.demo.exception.item.ItemAlreadyExistsException;
 import com.example.demo.exception.item.ItemErrorResponse;
 import com.example.demo.exception.order.OrderErrorResponse;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(InvalidIdException.class)
-  public ResponseEntity<?> handleInvalidException(InvalidIdException ex) {
+  @ExceptionHandler(com.example.demo.exception.InvalidIdException.class)
+  public ResponseEntity<?> handleInvalidException(
+      com.example.demo.exception.InvalidIdException ex) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(
             new com.example.demo.exception.UserErrorResponse(
@@ -27,7 +29,7 @@ public class GlobalExceptionHandler {
       com.example.demo.exception.UserAlreadyExistsException ex) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(
-            new UserErrorResponse(
+            new com.example.demo.exception.UserErrorResponse(
                 "User already exists", ex.getMessage(), HttpStatus.CONFLICT.value()));
   }
 
@@ -35,7 +37,8 @@ public class GlobalExceptionHandler {
   public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(
-            new UserErrorResponse("User not found", ex.getMessage(), HttpStatus.NOT_FOUND.value()));
+            new com.example.demo.exception.UserErrorResponse(
+                "User not found", ex.getMessage(), HttpStatus.NOT_FOUND.value()));
   }
 
   @ExceptionHandler
@@ -43,7 +46,7 @@ public class GlobalExceptionHandler {
       com.example.demo.exception.UserisAlreadyInactiveException ex) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(
-            new UserErrorResponse(
+            new com.example.demo.exception.UserErrorResponse(
                 "User is already inactive", ex.getMessage(), HttpStatus.CONFLICT.value()));
   }
 
@@ -66,5 +69,12 @@ public class GlobalExceptionHandler {
             new OrderErrorResponse(
                 "Order for user with id : " + ex.getUserId() + " was not found",
                 HttpStatus.NOT_FOUND.value()));
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<?> handleInsufficientItemQuantityException(
+      InsufficientItemQuantityException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new ItemErrorResponse("Inssuficient Item quantity", HttpStatus.NOT_FOUND.value()));
   }
 }

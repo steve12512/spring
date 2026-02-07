@@ -6,10 +6,9 @@ import com.example.demo.domain.OrderItem;
 import com.example.demo.domain.User;
 import com.example.demo.dto.requests.order_item_requests.OrderItemRequest;
 import com.example.demo.dto.requests.order_requests.CreateOrderRequest;
+import com.example.demo.exception.item.InsufficientItemQuantityException;
 import com.example.demo.exception.order.OrderNotFoundException;
-import com.example.demo.exception.user.UserNotFoundException;
 import com.example.demo.repository.order.OrderRepository;
-import com.example.demo.repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrderService {
   private final OrderRepository orderRepository;
-  private final UserRepository userRepository;
+  private final UserService userService;
   private final ItemService itemService;
 
   @Transactional
@@ -38,26 +37,41 @@ public class OrderService {
 
   @Transactional
   public Order createOrder(CreateOrderRequest request) {
-    User user =
-        userRepository
-            .findById(request.userId())
-            .orElseThrow(() -> new UserNotFoundException(request.userId()));
+    User user = userService.findById(request.userId());
     Order order = new Order();
     order.setUser(user);
-
-    mapRequestToEntity(request, order);
+    addOrderItemsToOrder(request, order);
     orderRepository.save(order);
     return order;
   }
 
-  private void mapRequestToEntity(CreateOrderRequest request, Order order) {
+  private void addOrderItemsToOrder(CreateOrderRequest request, Order order) {
     for (OrderItemRequest orderItemRequest : request.orderItemRequests()) {
       Item item = itemService.getItemById(orderItemRequest.itemId());
-      OrderItem orderItem = new OrderItem();
-      orderItem.setOrder(order);
-      orderItem.setItem(item);
-      orderItem.setInformation(request.information());
-      order.getOrderItems().add(orderItem);
+      if (itemHasAvailableQuantity(item, orderItemRequest.quantity())) {
+        updateItemQuantity(item, orderItemRequest.quantity());
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrder(order);
+        orderItem.setItem(item);
+        orderItem.setInformation(request.information());
+        order.getOrderItems().add(orderItem);
+      }
     }
+  }
+
+  private boolean itemHasAvailableQuantity(Item item, Integer quantity) {
+    if (item.getAvailableQuantity() < quantity)
+      throw new InsufficientItemQuantityException(
+          "Item :"
+              + item.getName()
+              + " has available quantity "
+              + item.getAvailableQuantity()
+              + " but the order requested a quantity of "
+              + quantity);
+    return true;
+  }
+
+  public void updateItemQuantity(Item item, Integer quantity) {
+    item.setAvailableQuantity(item.getAvailableQuantity() - quantity);
   }
 }
