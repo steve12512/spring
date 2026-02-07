@@ -12,32 +12,35 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/items")
 @Validated
-public class ItemController{
+public class ItemController {
 
-    private final ItemService itemService;
+  private final ItemService itemService;
 
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
+  public ItemController(ItemService itemService) {
+    this.itemService = itemService;
+  }
 
+  @GetMapping()
+  public ItemResponse getItem(@RequestParam String name) {
+    Item item = itemService.getItemByName(name);
+    return new ItemResponse(
+        item.getId(),
+        item.getName(),
+        item.getPrice(),
+        item.getInfo(),
+        "Successfully retrieved item");
+  }
 
-    @GetMapping()
-    public ItemResponse getItem(@RequestParam String name){
-        Item item = itemService.getItemByName(name);
-        return  new ItemResponse(item.getId(),item.getName(),item.getPrice(),item.getInfo(),"Successfully retrieved item");
-    }
-
-
-
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    @Validated
-    public ItemResponse createItem(@Valid @RequestBody CreateItemRequest request){
-        Item item = itemService.createItem(request);
-        return new ItemResponse(item.getId(),item.getName(),item.getPrice(),item.getInfo(),"Has been successfully created");
-
-
-    }
-
-
+  @PostMapping()
+  @ResponseStatus(HttpStatus.CREATED)
+  @Validated
+  public ItemResponse createItem(@Valid @RequestBody CreateItemRequest request) {
+    Item item = itemService.createItem(request);
+    return new ItemResponse(
+        item.getId(),
+        item.getName(),
+        item.getPrice(),
+        item.getInfo(),
+        "Has been successfully created");
+  }
 }

@@ -13,16 +13,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    Double price;
-    String info;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
 
-    public Item(String name, Double price, String info) {
-        this.name = name;
-        this.price = price;
-        this.info = info;
-    }
+  String name;
+  Double price;
+  String info;
+
+  public Item(String name, Double price, String info) {
+    this.name = name;
+    this.price = price;
+    this.info = info;
+  }
 }

@@ -1,13 +1,12 @@
 package com.example.demo.exception;
 
-public class UserAlreadyExistsException extends RuntimeException{
+public class UserAlreadyExistsException extends RuntimeException {
 
-    public UserAlreadyExistsException(String username) {
-        super("User with username: " + username+ " already exists in the db");
-    }
+  public UserAlreadyExistsException(String username) {
+    super("User with username: " + username + " already exists in the db");
+  }
 
-    public UserAlreadyExistsException(Long id) {
-        super("User with id: " + id + " already exists in the db");
-    }
+  public UserAlreadyExistsException(Long id) {
+    super("User with id: " + id + " already exists in the db");
+  }
 }
-

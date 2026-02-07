@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("jpa")
-public interface ItemJpaRepository extends JpaRepository<Item,Integer>, ItemRepository{
-
-}
+public interface ItemJpaRepository extends JpaRepository<Item, Integer>, ItemRepository {}

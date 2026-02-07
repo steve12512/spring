@@ -11,21 +11,20 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+public class OrderItem {
 
-public class OrderItem{
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+  @ManyToOne
+  @JoinColumn(name = "order_id", nullable = false)
+  private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+  @ManyToOne
+  @JoinColumn(name = "item_id", nullable = false)
+  private Item item;
 
-    @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)
-    private Item item;
-
-    String information;
-    String status;
+  String information;
+  String status;
 }
