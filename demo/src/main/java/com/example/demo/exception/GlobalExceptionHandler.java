@@ -6,6 +6,7 @@ import com.example.demo.exception.item.ItemErrorResponse;
 import com.example.demo.exception.order.OrderErrorResponse;
 import com.example.demo.exception.order.OrderForUserNotFoundException;
 import com.example.demo.exception.order.OrderNotFoundException;
+import com.example.demo.exception.order.WrongOrderUserIDException;
 import com.example.demo.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,5 +77,14 @@ public class GlobalExceptionHandler {
       InsufficientItemQuantityException ex) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
         .body(new ItemErrorResponse("Inssuficient Item quantity", HttpStatus.NOT_FOUND.value()));
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<?> handleWrongOrderUserIDException(WrongOrderUserIDException ex) {
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+        .body(
+            new OrderErrorResponse(
+                "The provided user Id does not match the userid of this specific order",
+                HttpStatus.CONFLICT.value()));
   }
 }

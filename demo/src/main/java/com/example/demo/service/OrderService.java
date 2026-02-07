@@ -6,8 +6,10 @@ import com.example.demo.domain.OrderItem;
 import com.example.demo.domain.User;
 import com.example.demo.dto.requests.order_item_requests.OrderItemRequest;
 import com.example.demo.dto.requests.order_requests.CreateOrderRequest;
+import com.example.demo.dto.requests.order_requests.ModifyOrderRequest;
 import com.example.demo.exception.item.InsufficientItemQuantityException;
 import com.example.demo.exception.order.OrderNotFoundException;
+import com.example.demo.exception.order.WrongOrderUserIDException;
 import com.example.demo.repository.order.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +73,34 @@ public class OrderService {
     return true;
   }
 
+  @Transactional
   public void updateItemQuantity(Item item, Integer quantity) {
     item.setAvailableQuantity(item.getAvailableQuantity() - quantity);
+  }
+
+  @Transactional
+  public Order cancelOrder(ModifyOrderRequest request) {
+    Order order =
+        orderRepository
+            .findById(request.orderId())
+            .orElseThrow(() -> new OrderNotFoundException(request.orderId()));
+    if (order.getUser().getId().equals(request.userId())) {
+      order.setStatus("Canceled");
+      return order;
+    }
+    throw new WrongOrderUserIDException(request.userId());
+  }
+
+  @Transactional
+  public Order completeOrder(ModifyOrderRequest request) {
+    Order order =
+        orderRepository
+            .findById(request.orderId())
+            .orElseThrow(() -> new OrderNotFoundException(request.orderId()));
+    if (order.getUser().getId().equals(request.userId())) {
+      order.setStatus("Canceled");
+      return order;
+    }
+    throw new WrongOrderUserIDException(request.userId());
   }
 }

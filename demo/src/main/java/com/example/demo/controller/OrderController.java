@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.domain.Order;
 import com.example.demo.dto.requests.order_requests.CreateOrderRequest;
+import com.example.demo.dto.requests.order_requests.ModifyOrderRequest;
 import com.example.demo.dto.requests.order_requests.SearchOrdersByUserNameRequest;
 import com.example.demo.dto.responses.order_responses.OrderResponse;
 import com.example.demo.service.OrderService;
@@ -64,6 +65,30 @@ public class OrderController {
         order.getId(),
         order.getUser().getId(),
         order.getOrderItems().stream().map(u -> u.getId()).toList(),
+        order.getUser().getUsername(),
+        order.getCreated_at());
+  }
+
+  @PutMapping("/cancel")
+  @Valid
+  public OrderResponse cancelOrder(@RequestBody @Validated ModifyOrderRequest request) {
+    Order order = orderService.cancelOrder(request);
+    return new OrderResponse(
+        order.getId(),
+        order.getUser().getId(),
+        order.getOrderItems().stream().map(orderItem -> orderItem.getId()).toList(),
+        order.getUser().getUsername(),
+        order.getCreated_at());
+  }
+
+  @PutMapping("/complete")
+  @Valid
+  public OrderResponse completeOrder(@RequestBody @Validated ModifyOrderRequest request) {
+    Order order = orderService.completeOrder(request);
+    return new OrderResponse(
+        order.getId(),
+        order.getUser().getId(),
+        order.getOrderItems().stream().map(orderItem -> orderItem.getId()).toList(),
         order.getUser().getUsername(),
         order.getCreated_at());
   }
