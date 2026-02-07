@@ -1,0 +1,402 @@
+{
+  "info": {
+    "_postman_id": "a9088edc-5ea6-4a30-8c05-fdc55000548b",
+    "name": "Spring Demo API",
+    "description": "API collection for the Spring Boot Demo application. This collection contains all endpoints for managing users.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51942793",
+    "_collection_link": "https://go.postman.co/collection/51942793-a9088edc-5ea6-4a30-8c05-fdc55000548b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "Retrieves a list of all users in the system. Returns an array of user objects containing id, username, email, and age."
+          },
+          "response": []
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id"
+                }
+              ]
+            },
+            "description": "Retrieves a specific user by their ID. Returns a user object with id, username, email, age, and a success message."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Filtered Users by MinAge and Name",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "GET Filtered Users by MinAge MaxAge Name Containing and is ACTIVE",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/filter/advanced_search?minAge=30&maxAge=50&usernameContains=ccc&isActive=true&size=10&size=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "filter",
+                "advanced_search"
+              ],
+              "query": [
+                {
+                  "key": "minAge",
+                  "value": "30"
+                },
+                {
+                  "key": "maxAge",
+                  "value": "50"
+                },
+                {
+                  "key": "usernameContains",
+                  "value": "ccc"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 10,\n  \"username\": \"johndoe\",\n  \"email\": \"john.doe@example.com\",\n  \"age\": 25\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "Creates a new user in the system.\n\n**Request Body Validation:**\n- `id` (integer, required): Must be at least 10\n- `username` (string, required): Cannot be blank\n- `email` (string, required): Must be a valid email format\n- `age` (integer, required): User's age\n\n**Response:** Returns the created user object with id, username, email, and age."
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Email",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newemail@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/email",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id",
+                "email"
+              ],
+              "variable": [
+                {
+                  "key": "id"
+                }
+              ]
+            },
+            "description": "Updates the email address for a specific user.\n\n**Path Parameter:**\n- `id` (integer): The ID of the user to update\n\n**Request Body Validation:**\n- `email` (string, required): Must be a valid email format\n\n**Response:** Returns the updated user object."
+          },
+          "response": []
+        },
+        {
+          "name": "Set User to Inactive",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/2/isActive",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "2",
+                "isActive"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User by id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/users/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "User management endpoints"
+    },
+    {
+      "name": "Items",
+      "item": [
+        {
+          "name": "Get Item By Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/items?name=\"Chicken with curry\"",
+              "path": [
+                "items"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "\"Chicken with curry\""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Item",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/items",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "items"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Get Order By Id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "CreateOrder",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"orderItemRequests\" : [\r\n                        {\"itemId\" : \"1\",\r\n                        \"quantity\": 5\r\n                        },\r\n                        { \"itemId\": \"2\",\r\n                            \"quantity\": \"10\"\r\n                        },\r\n                        {\"itemId\" : \"3\",\r\n                        \"quantity\" : \"10\"}\r\n                        ],\r\n\"userId\": \"2\",\r\n\"information\" : \" felt like buying stuff\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/orders",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Orders by UseR Id and Username containign",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/orders/usernameSearch?userId=2&username=aa",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "orders",
+                "usernameSearch"
+              ],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "2"
+                },
+                {
+                  "key": "username",
+                  "value": "aa"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Sign up",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/auth/sign-up",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "auth",
+                "sign-up"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Log-in",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}

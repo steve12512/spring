@@ -27,11 +27,11 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping("/{id}")
-//    public UserResponse getUser(@PathVariable Long id) {
-//        User user = userService.getUserById(id);
-//        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(),user.getIsActive(), "Successfully retrived user");
-//    }
+    @GetMapping("/{id}")
+    public UserResponse getUser(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getAge(),user.getIsActive(), "Successfully retrived user");
+    }
 
 
     @GetMapping

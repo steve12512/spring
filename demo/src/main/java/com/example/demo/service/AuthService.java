@@ -2,7 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.domain.User;
 import com.example.demo.dto.requests.auth.CreateUserRequest;
+import com.example.demo.dto.requests.auth.LogInUserRequest;
 import com.example.demo.exception.UserAlreadyExistsException;
+import com.example.demo.exception.user.UserNotFoundException;
 import com.example.demo.repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -30,6 +32,15 @@ public class AuthService{
         repository.save(user);
         return jwtService.generateToken(user);
     }
+
+    @Transactional
+    public String logInUser(LogInUserRequest request){
+        User user = repository.findByUsername(request.username()).orElseThrow(() -> new UserNotFoundException(request.username()));
+        if (!passwordEncoder.matches(request.password(),user.getPassword())) throw  new RuntimeException("Invalid password or username");
+        return  jwtService.generateToken(user);
+    }
+
+
 
 
 }

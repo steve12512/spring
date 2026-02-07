@@ -6,6 +6,7 @@ import com.example.demo.exception.item.ItemErrorResponse;
 import com.example.demo.exception.order.OrderErrorResponse;
 import com.example.demo.exception.order.OrderForUserNotFoundException;
 import com.example.demo.exception.order.OrderNotFoundException;
+import com.example.demo.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -26,8 +27,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new UserErrorResponse("User already exists",ex.getMessage(),HttpStatus.CONFLICT.value()));
     }
 
-    @ExceptionHandler(com.example.demo.exception.UserNotFoundException.class)
-    public ResponseEntity<?> handleUserNotFoundException(com.example.demo.exception.UserNotFoundException ex) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new UserErrorResponse("User not found",ex.getMessage(),HttpStatus.NOT_FOUND.value()));
     }
 
