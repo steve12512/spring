@@ -66,11 +66,30 @@ public class UserServiceTest {
   }
 
   @Test
-  public void findByIdThrowsUserNotFoundException() {
+  public void testFindByIdThrowsUserNotFoundException() {
     User user = new User("steve", "stevekalelis@hotmail.com", 26, true);
 
     when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
 
     assertThrows(UserNotFoundException.class, () -> userService.findById(user.getId()));
   }
+
+  @Test
+  public void
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
