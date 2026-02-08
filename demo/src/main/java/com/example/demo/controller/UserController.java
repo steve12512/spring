@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.User;
 import com.example.demo.dto.requests.user_requests.*;
 import com.example.demo.dto.requests.user_requests.UserSearchRequest;
 import com.example.demo.dto.requests.user_requests.UserSummaryRequest;
@@ -29,14 +28,8 @@ public class UserController {
 
   @GetMapping("/{id}")
   public UserResponse getUser(@PathVariable Long id) {
-    User user = userService.getUserById(id);
-    return new UserResponse(
-        user.getId(),
-        user.getUsername(),
-        user.getEmail(),
-        user.getAge(),
-        user.getIsActive(),
-        "Successfully retrived user");
+    UserResponse userResponse = userService.getUserById(id);
+    return userResponse;
   }
 
   @GetMapping
@@ -46,85 +39,39 @@ public class UserController {
       @RequestParam(defaultValue = "id") String sortBy) {
 
     Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-    return userService
-        .getUsers(pageable)
-        .map(
-            user ->
-                new UserResponse(
-                    user.getId(),
-                    user.getUsername(),
-                    user.getEmail(),
-                    user.getAge(),
-                    user.getIsActive(),
-                    "Successfully retrieved user"));
+    return userService.getUsers(pageable);
   }
 
   @GetMapping("/filter/search")
-  public Page<UserResponse> getUsersOlderThan(@Valid @ModelAttribute UserSearchRequest request) {
-    Pageable pageable = PageRequest.of(request.page(), request.size(), Sort.by(request.sortBy()));
-    Page<User> users = userService.getUsersAgeGreaterThanEqual(request, pageable);
-    return users.map(
-        user ->
-            new UserResponse(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getAge(),
-                "Successfully retrived user"));
+  public Page<UserResponse> getUsersOlderThan(
+      @Valid @ModelAttribute UserSearchRequest request, Pageable pageable) {
+    return userService.getUsersAgeGreaterThanEqual(request, pageable);
   }
 
   @GetMapping("filter/advanced_search")
   public Page<UserSummaryResponse> getRankedUsers(UserSummaryRequest request) {
-    Page<User> users = userService.getRankedUsers(request);
-    return users.map(
-        user ->
-            new UserSummaryResponse(
-                user.getId(), user.getUsername(), user.getAge(), user.getIsActive()));
+    return userService.getRankedUsers(request);
   }
 
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
   public UserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
-    User user = userService.createUser(request.getAge(), request.getUsername(), request.getEmail());
-    UserResponse response =
-        new UserResponse(
-            user.getId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getAge(),
-            "User has successfully been created");
-    return response;
+    return userService.createUser(request.getAge(), request.getUsername(), request.getEmail());
   }
 
   @PutMapping("/{id}/email")
   public UserResponse updateUserEmail(
       @PathVariable Long id, @Valid @RequestBody UpdateUserEmailRequest request) {
-    User user = userService.updateUserEmail(id, request.getEmail());
-    UserResponse userResponse =
-        new UserResponse(
-            user.getId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getAge(),
-            "Successfully updated the user's email to : " + user.getEmail());
-    return userResponse;
+    return userService.updateUserEmail(id, request.getEmail());
   }
 
   @PutMapping("/{id}/isActive")
   public UserResponse setUsertoInactive(@PathVariable Long id) {
-    User user = userService.setUserStatusToInactive(id);
-    return new UserResponse(
-        id,
-        user.getUsername(),
-        user.getEmail(),
-        user.getAge(),
-        user.getIsActive(),
-        "successfully set the user s status to inactive");
+    return userService.setUserStatusToInactive(id);
   }
 
   @DeleteMapping("/{id}")
   public UserResponse deleteUser(@PathVariable Long id) {
-    userService.deleteById(id);
-    return new UserResponse("User with id: " + id + " has been successfully deleted");
+    return userService.deleteById(id);
   }
 }

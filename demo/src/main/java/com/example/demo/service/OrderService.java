@@ -39,7 +39,7 @@ public class OrderService {
 
   @Transactional
   public Order createOrder(CreateOrderRequest request) {
-    User user = userService.findById(request.userId());
+    User user = userService.findUserById(request.userId());
     Order order = new Order();
     order.setUser(user);
     addOrderItemsToOrder(request, order);
