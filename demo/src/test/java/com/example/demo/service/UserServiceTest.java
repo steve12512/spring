@@ -58,12 +58,12 @@ public class UserServiceTest {
 
     when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
-    UserResponse mockUserResponse = userService.findUserById(user.getId());
+    User mockUser = userService.findUserById(user.getId());
 
-    assertNotNull(mockUserResponse);
-    assertEquals(user.getEmail(), mockUserResponse.getEmail());
-    assertEquals(user.getAge(), mockUserResponse.getAge());
-    assertEquals(user.getIsActive(), mockUserResponse.getIsActive());
+    assertNotNull(mockUser);
+    assertEquals(user.getEmail(), mockUser.getEmail());
+    assertEquals(user.getAge(), mockUser.getAge());
+    assertEquals(user.getIsActive(), mockUser.getIsActive());
   }
 
   @Test
@@ -84,14 +84,16 @@ public class UserServiceTest {
     when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
     when(userRepository.save(any(User.class))).thenReturn(user);
 
-    UserResponse mockResponse = userService.updateUserEmail(user.getId(), new_email);
+    UserResponse mockResponse =  userService.updateUserEmail(user.getId(), new_email);
+//    UserResponse mockResponse = new UserResponse(mockUser.getId(),mockUser.getUsername(),mockUser.getEmail(),mockUser.getAge()
+//    "Successfully retrieved user",mockUser.getIsActive());
 
     assertNotNull(mockResponse);
     assertEquals(user.getId(), mockResponse.getId());
     assertEquals(user.getUsername(), mockResponse.getUsername());
     assertEquals(new_email, mockResponse.getEmail());
     assertEquals(user.getAge(), mockResponse.getAge());
-    assertEquals(user.getIsActive(), mockResponse.getIsActive());
+    assertEquals(user.getIsActive(), mockResponse.isActive());
   }
 
   @Test

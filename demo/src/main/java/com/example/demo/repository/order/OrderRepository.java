@@ -14,12 +14,6 @@ public interface OrderRepository {
 
   Optional<Order> findById(Long id);
 
-  //    @Query(value = " SELECT O.* FROM ORDERS O JOIN USERS U ON U.ID = O.USER_ID " +
-  //            " WHERE U.ID = :userId AND LOWER(U.USERNAME) LIKE LOWER(CONCAT('%',:userName,'%'))",
-  //    nativeQuery = true)
-
-  // NATIVE VERSION ABOVE, I have to add the pageable var!
-
   @Query(
       "SELECT o FROM Order o JOIN o.user u  WHERE u.id = :userId "
           + " AND LOWER(u.username) LIKE LOWER(CONCAT('%',:userName,'%'))")
