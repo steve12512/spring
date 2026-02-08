@@ -84,9 +84,7 @@ public class UserServiceTest {
     when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
     when(userRepository.save(any(User.class))).thenReturn(user);
 
-    UserResponse mockResponse =  userService.updateUserEmail(user.getId(), new_email);
-//    UserResponse mockResponse = new UserResponse(mockUser.getId(),mockUser.getUsername(),mockUser.getEmail(),mockUser.getAge()
-//    "Successfully retrieved user",mockUser.getIsActive());
+    UserResponse mockResponse = userService.updateUserEmail(user.getId(), new_email);
 
     assertNotNull(mockResponse);
     assertEquals(user.getId(), mockResponse.getId());

@@ -1,25 +1,25 @@
-//package com.example.demo.controller;
+// package com.example.demo.controller;
 //
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+// import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+// import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 //
-//import com.example.demo.domain.User;
-//import com.example.demo.service.UserService;
-//import java.util.List;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mockito;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageImpl;
-//import org.springframework.test.context.bean.override.mockito.MockitoBean;
-//import org.springframework.test.web.servlet.MockMvc;
+// import com.example.demo.domain.User;
+// import com.example.demo.service.UserService;
+// import java.util.List;
+// import org.junit.jupiter.api.Test;
+// import org.mockito.Mockito;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.data.domain.Page;
+// import org.springframework.data.domain.PageImpl;
+// import org.springframework.test.context.bean.override.mockito.MockitoBean;
+// import org.springframework.test.web.servlet.MockMvc;
 //
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//public class UserControllerTest {
+// @SpringBootTest
+// @AutoConfigureMockMvc
+// public class UserControllerTest {
 //
 //  @Autowired private MockMvc mockMvc;
 //
@@ -46,4 +46,4 @@
 //        .andExpect(jsonPath("$.content[0].age").value(40))
 //        .andExpect(jsonPath("$.content[0].isActive").value(true));
 //  }
-//}
+// }
