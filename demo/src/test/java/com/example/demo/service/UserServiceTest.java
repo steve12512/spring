@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import com.example.demo.domain.User;
 import com.example.demo.dto.responses.user_responses.UserResponse;
 import com.example.demo.exception.UserAlreadyExistsException;
+import com.example.demo.exception.user.UserNotFoundException;
 import com.example.demo.repository.user.UserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -47,5 +48,29 @@ public class UserServiceTest {
     assertThrows(
         UserAlreadyExistsException.class,
         () -> userService.createUser(user.getAge(), user.getUsername(), user.getEmail()));
+  }
+
+  @Test
+  public void testFindById() {
+
+    User user = new User("steve", "stevekalelis@hotmail.com", 26, true);
+
+    when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+    UserResponse mockUserResponse = userService.findUserById(user.getId());
+
+    assertNotNull(mockUserResponse);
+    assertEquals(user.getEmail(), mockUserResponse.getEmail());
+    assertEquals(user.getAge(), mockUserResponse.getAge());
+    assertEquals(user.getIsActive(), mockUserResponse.getIsActive());
+  }
+
+  @Test
+  public void findByIdThrowsUserNotFoundException() {
+    User user = new User("steve", "stevekalelis@hotmail.com", 26, true);
+
+    when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
+
+    assertThrows(UserNotFoundException.class, () -> userService.findById(user.getId()));
   }
 }
