@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.domain.Order;
 import com.example.demo.domain.User;
 import com.example.demo.dto.responses.order_responses.OrderResponse;
+import com.example.demo.exception.order.OrderNotFoundException;
 import com.example.demo.repository.order.OrderRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -42,18 +42,13 @@ public class OrderServiceTest {
     assertEquals(mockOrderResponse.createdAt(), order.getCreated_at());
   }
 
-  //
-  //    @Test
-  //    public void testFindByIdThrowsOrderNotFoundException() {
-  //        Order order = new Order();
-  //        User user = new User("cccSTAVROS", "stevekalelis@outlook.gr", 40, true);
-  //        order.setUser(user);
-  //
-  //        when(orderRepository.findById(order.getId())).thenReturn()
-  //
-  //
-  //
-  //    }
+  @Test
+  public void testFindByIdThrowsOrderNotFoundException() {
+    Order order = new Order();
+    when(orderRepository.findById(order.getId())).thenReturn(Optional.empty());
+
+    assertThrows(OrderNotFoundException.class, () -> orderService.findById(order.getId()));
+  }
 
   //    @Test
   //    public void testCreateOrder() {
